@@ -1,0 +1,172 @@
+---
+title: "Apple Watch Health Data"
+author: Benjamin W. Nelson
+output: html_notebook
+date: 2/21/18
+R version: 3.4.2
+---
+
+##Resources
+https://github.com/deepankardatta/AppleHealthAnalysis
+http://www.ryanpraski.com/apple-health-data-how-to-export-analyze-visualize-guide/
+https://gist.github.com/ryanpraski/ba9baee2583cfb1af88ca4ec62311a3d#file-apple_health_load_analysis_r-r
+
+##Set WD
+```{r}
+setwd("~/Dropbox/Apple Watch")
+```
+
+##Load Libraries
+```{r}
+library(AppleHealthAnalysis); library(xml2); library(purrr); library(lubridate); library(shiny); library(ggplot2)
+```
+
+##Import Data
+```{r}
+health_data <- ah_import_xml("export.xml")
+names(health_data)
+str(health_data)
+```
+
+##Data Cleaning
+```{r}
+
+health_data <- health_data[ c("endDate", "hour", "type" , "value" , "unit" , "day_name") ] #Subset the data to get rid of the columns we don't need
+
+health_data$value <- as.numeric(as.character(health_data$value)) # Make the 'value' variable numeric
+```
+
+##Clean up the type identifier so it is easier to parse. FIGURE OUT WHAT THIS MEANS
+```{r}
+health_data$type <- gsub('HKQuantityTypeIdentifier', "" , health_data$type )
+health_data$type <- gsub('HKCategoryTypeIdentifier', "" , health_data$type )
+```
+
+##Make Identifyer a Factor
+```{r}
+health_data$type <- health_data$type %>% as.factor()
+
+health_data$type <- as.factor(health_data$type)
+#why use the first instead of the second?
+```
+
+##Format Dates
+```{r}
+# Use lubridate package to format the dates
+health_data$endDate <- health_data$endDate %>% ymd_hms()
+
+# add in columns for dates and times
+health_data$year       <- health_data$endDate %>% year() %>% as.factor()
+health_data$month      <- health_data$endDate %>% month() %>% as.factor()
+health_data$month_name <- health_data$endDate %>% month(label = TRUE, abbr = FALSE ) %>% as.factor()
+health_data$day        <- health_data$endDate %>% mday() %>% as.factor()
+health_data$day_name   <- health_data$endDate %>% wday( label=TRUE, abbr=FALSE ) %>% as.factor()
+health_data$date       <- health_data$endDate %>% as_date()
+health_data$hour       <- health_data$endDate %>% hour() %>% as.factor()
+health_data$minute       <- health_data$endDate %>% minute() %>% as.factor()
+```
+
+##Reorder Columns
+```{r}
+health_data_reorder<- health_data[c("endDate", "date", "month", "day", "year", "month_name", "day_name", "hour", "minute", "type", "value", "unit")]
+```
+
+##Pull Data
+Note: ah_data_select Selects requested Apple Health information from the extracted data frame.
+
+#Heart
+```{r}
+type_filter <- "RestingHeartRate"
+ah_data_select(health_data , type_filter = "RestingHeartRate")
+rhr_data <-ah_data_select( health_data , type_filter = "RestingHeartRate")
+colnames(rhr_data)[4] <- "RestingHeartRate"
+
+type_filter <- "HeartRate"
+ah_data_select(health_data , type_filter = "HeartRate")
+hr_data <-ah_data_select( health_data , type_filter = "HeartRate")
+colnames(hr_data)[4] <- "HeartRate"
+
+type_filter <- "HeartRateVariabilitySDNN"
+ah_data_select(health_data , type_filter = "HeartRateVariabilitySDNN")
+hrv_data <-ah_data_select( health_data , type_filter = "HeartRateVariabilitySDNN")
+colnames(hrv_data)[4] <- "HeartRateVariabilitySDNN"
+
+type_filter <- "HWalkingHeartRateAverage"
+ah_data_select(health_data , type_filter = "WalkingHeartRateAverage")
+whra_data <-ah_data_select( health_data , type_filter = "HWalkingHeartRateAverage")
+colnames(whra_data)[4] <- "Walking Heart Rate Average"
+
+```
+
+#Physical Activity
+```{r}
+type_filter <- "StepCount"
+ah_data_select(health_data , type_filter = "StepCount")
+step_count_data <-ah_data_select( health_data , type_filter = "StepCount")
+colnames(step_count_data)[4] <- "StepCount"
+
+type_filter <- "DistanceWalkingRunning"
+ah_data_select(health_data , type_filter = "DistanceWalkingRunning")
+distance_data <-ah_data_select( health_data , type_filter = "DistanceWalkingRunning")
+colnames(distance_data)[4] <- "DistanceWalkingRunning"
+
+type_filter <- "FlightsClimbed"
+ah_data_select(health_data , type_filter = "FlightsClimbed")
+stairs_data <-ah_data_select( health_data , type_filter = "FlightsClimbed")
+colnames(stairs_data)[4] <- "HFlightsClimbed"
+
+type_filter <- "AppleExerciseTime"
+ah_data_select(health_data , type_filter = "AppleExerciseTime")
+exercise_time_data <-ah_data_select( health_data , type_filter = "AppleExerciseTime")
+colnames(exercise_time_data)[4] <- "AppleExerciseTime"
+
+type_filter <- "AppleStandHour"
+ah_data_select(health_data , type_filter = "AppleStandHour")
+stand_data <-ah_data_select( health_data , type_filter = "AppleStandHour")
+colnames(stand_data)[4] <- "AppleStandHour"
+
+```
+
+#Calories. Note- studies suggest that calories from wearables can be up to 90% inaccurate
+```{r}
+type_filter <- "BasalEnergyBurned"
+ah_data_select(health_data , type_filter = "BasalEnergyBurned")
+basal_energy_data <-ah_data_select( health_data , type_filter = "BasalEnergyBurned")
+colnames(basal_energy_data)[4] <- "BasalEnergyBurned"
+
+type_filter <- "ActiveEnergyBurned"
+ah_data_select(health_data , type_filter = "ActiveEnergyBurned")
+active_energy_data <-ah_data_select( health_data , type_filter = "ActiveEnergyBurned")
+colnames(active_energy_data)[4] <- "ActiveEnergyBurned"
+
+
+```
+
+#Blood Pressure
+```{r}
+type_filter <- "BloodPressureDiastolic"
+ah_data_select(health_data , type_filter = "BloodPressureDiastolic")
+bp_dia_data <-ah_data_select( health_data , type_filter = "BloodPressureDiastolic")
+colnames(bp_dia_data)[4] <- "BloodPressureDiastolic"
+
+type_filter <- "BloodPressureSystolic"
+ah_data_select(health_data , type_filter = "BloodPressureSystolic")
+bp_sys_data <-ah_data_select( health_data , type_filter = "BloodPressureSystolic")
+colnames(bp_sys_data)[4] <- "BloodPressureSystolic"
+```
+
+#Body Mass
+```{r}
+type_filter <- "BodyMass"
+ah_data_select(health_data , type_filter = "BodyMass")
+body_mass_data <-ah_data_select( health_data , type_filter = "BodyMass")
+colnames(body_mass_data)[4] <- "BodyMass"
+```
+
+#Mindfulness
+```{r}
+type_filter <- "MindfulSession"
+ah_data_select(health_data , type_filter = "MindfulSession")
+mindful_data <-ah_data_select( health_data , type_filter = "MindfulSession")
+```
+
