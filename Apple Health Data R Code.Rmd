@@ -36,7 +36,7 @@ health_data <- health_data[ c("endDate", "hour", "type" , "value" , "unit" , "da
 health_data$value <- as.numeric(as.character(health_data$value)) # Make the 'value' variable numeric
 ```
 
-##Clean up the type identifier so it is easier to parse. FIGURE OUT WHAT THIS MEANS
+##Clean up the type identifier so it is easier to parse.
 ```{r}
 health_data$type <- gsub('HKQuantityTypeIdentifier', "" , health_data$type )
 health_data$type <- gsub('HKCategoryTypeIdentifier', "" , health_data$type )
