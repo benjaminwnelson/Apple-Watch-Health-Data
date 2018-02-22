@@ -15,6 +15,11 @@ https://gist.github.com/ryanpraski/ba9baee2583cfb1af88ca4ec62311a3d#file-apple_h
 ```{r}
 setwd("~/Dropbox/Apple Watch")
 ```
+##Load Dev Tools
+```
+library(devtools)
+install_github("deepankardatta/AppleHealthAnalysis")
+```
 
 ##Load Libraries
 ```{r}
