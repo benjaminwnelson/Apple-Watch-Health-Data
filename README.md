@@ -8,7 +8,7 @@ library(AppleHealthAnalysis)
 
 ## How to Download Apple Health Data and Import to R
 ### 1) Open Apple Health and click the icon in the upper right corner
-<img width="255" alt="screen shot 2018-02-24 at 1 11 16 pm" src="https://user-images.githubusercontent.com/36683142/36635102-3fe1cdf4-1964-11e8-851d-8e758d1f6eb0.png">
+<img width="285" alt="screen shot 2018-02-24 at 1 23 00 pm" src="https://user-images.githubusercontent.com/36683142/36635299-3c1b624a-1967-11e8-9104-aa56fb871a11.png">
 
 ### 2) Export the Data
 <img width="263" alt="screen shot 2018-02-24 at 1 24 04 pm" src="https://user-images.githubusercontent.com/36683142/36635295-1cd49fe6-1967-11e8-86cc-1c354b4933b5.png">
