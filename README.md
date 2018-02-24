@@ -3,7 +3,9 @@ This repo will provide code for pulling Apple Watch Health data from Apple's Hea
 
 ## Download "AppleHealthAnalysis" R Package
 library(devtools)
+
 intall_github("deepankardatta/AppleHealthAnalysis")
+
 library(AppleHealthAnalysis)
 
 ## How to Download Apple Health Data and Import to R
