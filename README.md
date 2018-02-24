@@ -10,8 +10,13 @@ library(AppleHealthAnalysis)
 ### 1) Open Apple Health and click the icon in the upper right corner
 <img width="255" alt="screen shot 2018-02-24 at 1 11 16 pm" src="https://user-images.githubusercontent.com/36683142/36635102-3fe1cdf4-1964-11e8-851d-8e758d1f6eb0.png">
 
-### 2) Export your Apple Health Data
-<img width="283" alt="screen shot 2018-02-24 at 1 09 53 pm" src="https://user-images.githubusercontent.com/36683142/36635115-5e7cbc10-1964-11e8-9ad5-de5b5317303d.png">
+### 2) Export the Data
+<img width="263" alt="screen shot 2018-02-24 at 1 24 04 pm" src="https://user-images.githubusercontent.com/36683142/36635295-1cd49fe6-1967-11e8-86cc-1c354b4933b5.png">
+
+### 3) Email the Data
+<img width="248" alt="screen shot 2018-02-24 at 1 26 30 pm" src="https://user-images.githubusercontent.com/36683142/36635261-c3c96c4c-1966-11e8-8366-c2b20ad3f795.png">
+<img width="268" alt="screen shot 2018-02-24 at 1 27 36 pm" src="https://user-images.githubusercontent.com/36683142/36635268-d0a875b6-1966-11e8-8a7a-a4f02e9c89dc.png">
+
 
 ### 3) Open R
 health.data<- ah_import_xml("export.xml")
