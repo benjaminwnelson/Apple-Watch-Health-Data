@@ -19,8 +19,7 @@ library(AppleHealthAnalysis)
 <img width="248" alt="screen shot 2018-02-24 at 1 26 30 pm" src="https://user-images.githubusercontent.com/36683142/36635261-c3c96c4c-1966-11e8-8366-c2b20ad3f795.png">
 <img width="268" alt="screen shot 2018-02-24 at 1 27 36 pm" src="https://user-images.githubusercontent.com/36683142/36635268-d0a875b6-1966-11e8-8a7a-a4f02e9c89dc.png">
 
-
-### 3) Open R
+### 4) Open R
 health.data<- ah_import_xml("export.xml")
 
 ## Future Edits
