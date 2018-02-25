@@ -6,8 +6,6 @@ library(devtools)
 
 intall_github("deepankardatta/AppleHealthAnalysis")
 
-library(AppleHealthAnalysis)
-
 ## How to Download Apple Health Data and Import to R
 ### 1) Open Apple Health and click the icon in the upper right corner
 <img width="285" alt="screen shot 2018-02-24 at 1 23 00 pm" src="https://user-images.githubusercontent.com/36683142/36635299-3c1b624a-1967-11e8-9104-aa56fb871a11.png">
@@ -20,6 +18,8 @@ library(AppleHealthAnalysis)
 <img width="268" alt="screen shot 2018-02-24 at 1 27 36 pm" src="https://user-images.githubusercontent.com/36683142/36635268-d0a875b6-1966-11e8-8a7a-a4f02e9c89dc.png">
 
 ### 4) Open R
+library(AppleHealthAnalysis)
+
 health.data<- ah_import_xml("export.xml")
 
 ## Future Edits
